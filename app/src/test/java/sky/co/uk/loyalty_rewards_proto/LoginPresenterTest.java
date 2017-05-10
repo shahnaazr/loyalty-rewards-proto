@@ -41,5 +41,4 @@ public class LoginPresenterTest {
         loginPresenter.onLoginClicked();
         verify(loginView).showPasswordError();
     }
-
 }

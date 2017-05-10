@@ -31,14 +31,14 @@ public class RewardsActivity extends AppCompatActivity implements IRewardsView {
         rewardsLabelTextView = (TextView) findViewById(R.id.rewards_text_view);
         rewardsListView = (ListView) findViewById(R.id.rewards_list_view);
 
-        //rewardsService = new RewardsService(200, "[{\"reward\": \"CHAMPIONS_LEAGUE_FINAL_TICKET\"},{ \"reward\": \"KARAOKE_PRO_MICROPHONE\"},{ \"reward\": \"PIRATES_OF_THE_CARIBBEAN_COLLECTION\"}]");
-        //rewardsService = new RewardsService(200,"[]");
-        //rewardsService = new RewardsService(400,"customer error");
-        rewardsService = new RewardsService(500, "server error");
+        //In real time this data need not be instantiated
+        this.rewardsService = new RewardsService(200, "[{\"reward\": \"CHAMPIONS_LEAGUE_FINAL_TICKET\"},{ \"reward\": \"KARAOKE_PRO_MICROPHONE\"},{ \"reward\": \"PIRATES_OF_THE_CARIBBEAN_COLLECTION\"}]");
+        //this.rewardsService = new RewardsService(200,"[]");
+        //this.rewardsService = new RewardsService(400,"customer error");
+        //this.rewardsService = new RewardsService(500, "server error");
 
         rewardsPresenter = new RewardsPresenter(this, rewardsService);
         rewardsPresenter.displayMessagebasedOnResponse();
-
     }
 
     @Override

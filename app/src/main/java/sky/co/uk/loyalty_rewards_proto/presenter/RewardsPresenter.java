@@ -17,6 +17,8 @@ public class RewardsPresenter {
     public RewardsPresenter(IRewardsView rewardsView, RewardsService rewardsService) {
         this.rewardsView = rewardsView;
         this.rewardsService = rewardsService;
+
+
     }
 
     public void displayMessagebasedOnResponse() {
@@ -42,15 +44,16 @@ public class RewardsPresenter {
     }
 
     public String[] convertJsonToObject() {
-        if ((rewardsService.getStatusCode() == 200) && (Arrays.asList(new Gson().fromJson(rewardsService.getResponse(), Reward[].class)).size() > 0)) {
+        if ((rewardsService.getStatusCode() == 200) && (rewardsService.getResponse() != "[]")) {
             Reward[] rewardArray = new Gson().fromJson(rewardsService.getResponse(), Reward[].class);
             String[] array = new String[rewardArray.length];
             for (int i = 0; i < rewardArray.length; i++) {
                 array[i] = rewardArray[i].getReward();
             }
             return array;
+        } else {
+            return null;
         }
-        return null;
     }
 
 }
