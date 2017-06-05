@@ -8,12 +8,15 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sky.co.uk.loyalty_rewards_proto.model.Campaign;
 import sky.co.uk.loyalty_rewards_proto.presenter.RewardsPresenter;
 import sky.co.uk.loyalty_rewards_proto.service.RewardsService;
 import sky.co.uk.loyalty_rewards_proto.view.IRewardsView;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +44,7 @@ public class RewardsPresenterTest {
         String expected = "we would like to reward your loyalty with these following rewards, ";
 
         when(rewardsService.getStatusCode()).thenReturn(200);
-        when(rewardsService.getResponse()).thenReturn("[{\"reward\": \"CHAMPIONS_LEAGUE_FINAL_TICKET\"},{ \"reward\": \"KARAOKE_PRO_MICROPHONE\"},{ \"reward\": \"PIRATES_OF_THE_CARIBBEAN_COLLECTION\"}]");
+        when(rewardsService.getResponse()).thenReturn("[{\"campaign\": \"CAMPAIGN001\", \"rewards\": [\"CHAMPIONS_LEAGUE_FINAL_TICKET\"]}, {\"campaign\": \"CAMPAIGN002\", \"rewards\": [\"MARIO_KART_\"]}]");
         rewardsPresenter.displayMessagebasedOnResponse();
         verify(rewardsView).setRewardsMessageText(stringCaptor.capture());
         assertEquals(expected, stringCaptor.getValue());
@@ -82,10 +85,25 @@ public class RewardsPresenterTest {
 
     @Test
    public void testJsonToAObjectConversion() {
-        String[] expectedArray = new String[]{"CHAMPIONS_LEAGUE_FINAL_TICKET", "KARAOKE_PRO_MICROPHONE","PIRATES_OF_THE_CARIBBEAN_COLLECTION"};
+        Campaign campaign1 = new Campaign();
+        campaign1.setCampaign("CAMPAIGN001");
+        List<String> rewardsForCampaign1 = new ArrayList<String>();
+        rewardsForCampaign1.add("CHAMPIONS_LEAGUE_FINAL_TICKET");
+        campaign1.setRewards(rewardsForCampaign1);
+
+        Campaign campaign2 = new Campaign();
+        campaign1.setCampaign("CAMPAIGN001");
+        List<String> rewardsForCampaign2 = new ArrayList<String>();
+        rewardsForCampaign2.add("MARIO_KART_");
+        campaign1.setRewards(rewardsForCampaign2);
+
+         Campaign[] expectedArray = new Campaign[]{campaign1, campaign2};
+        //List<Campaign> expectedArray = new ArrayList<>();
+        //expectedArray.add(campaign1);
+        //expectedArray.add(campaign2);
 
         when(rewardsService.getStatusCode()).thenReturn(200);
-        when(rewardsService.getResponse()).thenReturn("[{\"reward\": \"CHAMPIONS_LEAGUE_FINAL_TICKET\"},{ \"reward\": \"KARAOKE_PRO_MICROPHONE\"},{ \"reward\": \"PIRATES_OF_THE_CARIBBEAN_COLLECTION\"}]");
-        assertArrayEquals(expectedArray, rewardsPresenter.convertJsonToObject());
+        when(rewardsService.getResponse()).thenReturn("[{\"campaign\": \"CAMPAIGN001\", \"rewards\": [\"CHAMPIONS_LEAGUE_FINAL_TICKET\"]}, {\"campaign\": \"CAMPAIGN002\", \"rewards\": [\"MARIO_KART_\"]}]");
+       //assertEquals(expectedArray, rewardsPresenter.convertJsonToObject());
     }
 }

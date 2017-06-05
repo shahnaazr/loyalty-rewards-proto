@@ -2,10 +2,10 @@ package sky.co.uk.loyalty_rewards_proto.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import sky.co.uk.loyalty_rewards_proto.CampaignAdapter;
 import sky.co.uk.loyalty_rewards_proto.R;
 import sky.co.uk.loyalty_rewards_proto.presenter.RewardsPresenter;
 import sky.co.uk.loyalty_rewards_proto.service.RewardsService;
@@ -32,7 +32,8 @@ public class RewardsActivity extends AppCompatActivity implements IRewardsView {
         rewardsListView = (ListView) findViewById(R.id.rewards_list_view);
 
         //In real time this data need not be instantiated
-        this.rewardsService = new RewardsService(200, "[{\"reward\": \"CHAMPIONS_LEAGUE_FINAL_TICKET\"},{ \"reward\": \"KARAOKE_PRO_MICROPHONE\"},{ \"reward\": \"PIRATES_OF_THE_CARIBBEAN_COLLECTION\"}]");
+        this.rewardsService = new RewardsService(200, "[{\"campaign\": \"CAMPAIGN001\", \"rewards\": [\"CHAMPIONS_LEAGUE_FINAL_TICKET\"]}, {\"campaign\": \"CAMPAIGN002\", \"rewards\": [\"MARIO_KART_\"]}]");
+        //this.rewardsService = new RewardsService(200, "[{\"reward\": \"CHAMPIONS_LEAGUE_FINAL_TICKET\"},{ \"reward\": \"KARAOKE_PRO_MICROPHONE\"},{ \"reward\": \"PIRATES_OF_THE_CARIBBEAN_COLLECTION\"}]");
         //this.rewardsService = new RewardsService(200,"[]");
         //this.rewardsService = new RewardsService(400,"customer error");
         //this.rewardsService = new RewardsService(500, "server error");
@@ -49,7 +50,7 @@ public class RewardsActivity extends AppCompatActivity implements IRewardsView {
     @Override
     public void setRewardsList() {
         rewardsListView = (ListView) findViewById(R.id.rewards_list_view);
-        rewardsListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, rewardsPresenter.convertJsonToObject()));
+        rewardsListView.setAdapter(new CampaignAdapter(this, 0, rewardsPresenter.convertJsonToObject()));
     }
 
     @Override

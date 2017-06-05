@@ -3,6 +3,7 @@ package sky.co.uk.loyalty_rewards_proto.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements ILoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.i("MainActivity", "testing");
         usernameTextView = (TextView) findViewById(R.id.username_text_view);
         setUsernameLabel();
         passwordTextView = (TextView) findViewById(R.id.password_text_view);
